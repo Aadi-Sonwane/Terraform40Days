@@ -1,0 +1,21 @@
+{
+    "name": "Aditya Terraform ", // Your custom container name (visible in the Codespace UI)
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "remoteUser": "vscode", // Ensure this matches the user created in the Dockerfile
+    "postCreateCommand": "echo 'Custom Codespace environment ready!'", // Optional command to run after creation
+    "extensions": [
+        // Add recommended VS Code extensions for your project
+        "hashicorp.terraform",
+        "aws.aws-toolkit-vscode",
+        // Add other extensions you use
+    ],
+    "forwardPorts": [], // Add any ports you want to forward
+    "portsAttributes": {},
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+        // Add any custom VS Code settings
+    }
+    // You can add more configurations here (e.g., mount volumes)
+}
