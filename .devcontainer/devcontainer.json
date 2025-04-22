@@ -1,18 +1,26 @@
 {
-  "name": "Terraform Codespace by Aadi",
-  "build": {
-    "dockerfile": "Dockerfile"
+  "name": "terraform-codespace-by-aadi",
+  // Use the official GitHub-provided Ubuntu image directly
+  "image": "ghcr.io/devcontainers/base:ubuntu-latest",
+
+  "features": {
+    "ghcr.io/devcontainers/features/terraform:1": {},
+    "ghcr.io/devcontainers/features/aws-cli:1": {}
   },
-  "containerEnv": {
+
+  "remoteEnv": {
     "AWS_ACCESS_KEY_ID": "${{ secrets.AWS_ACCESS_KEY_ID }}",
-    "AWS_SECRET_ACCESS_KEY": "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+    "AWS_SECRET_ACCESS_KEY": "${{ secrets.AWS_SECRET_ACCESS_KEY }}",
+    "AWS_REGION": "${{ secrets.AWS_REGION }}"
   },
-  "postStartCommand": "bash -c 'clear && echo \"👋 Welcome @Aadi-Sonwane to your Personal Terraform Codespace 🌍\" && echo \"===============================================================\" && echo \"🛠️  Tools installed: AWS CLI, Terraform, GitHub CLI\" && echo \"🔐 Secrets securely loaded from GitHub (only visible to you)\" && echo \"📁 Workspace: $REPO_NAME\" && echo \"🚀 Happy Automating!\"'",
+
+  "postCreateCommand": "echo 'Terraform and AWS CLI are ready!'",
+
   "customizations": {
     "vscode": {
-      "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash"
-      }
+      "extensions": [
+        "HashiCorp.terraform"
+      ]
     }
   }
 }
