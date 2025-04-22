@@ -1,7 +1,7 @@
 {
   "name": "terraform-codespace-by-aadi",
   // Use the official GitHub-provided Ubuntu image directly
-  "image": "ghcr.io/devcontainers/base:ubuntu-latest",
+  "image": "ghcr.io/devcontainers/base:ubuntu-22.04",
 
   "features": {
     "ghcr.io/devcontainers/features/terraform:1": {},
