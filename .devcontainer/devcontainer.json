@@ -1,0 +1,27 @@
+
+
+
+{
+  "name": "terraform-codespace-by-aadi", // Internal name for the dev container configuration
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/devcontainers/features/terraform:1": {},
+    "ghcr.io/devcontainers/features/aws-cli:1": {}
+  },
+
+  "remoteEnv": {
+    "AWS_ACCESS_KEY_ID": "${{ secrets.AWS_ACCESS_KEY_ID }}",
+    "AWS_SECRET_ACCESS_KEY": "${{ secrets.AWS_SECRET_ACCESS_KEY }}",
+    "AWS_REGION": "${{ secrets.AWS_REGION }}"
+  },
+
+  "postCreateCommand": "echo 'Welcome to your custom Terraform and AWS Codespace!'",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "HashiCorp.terraform"
+      ]
+    }
+  }
+}
