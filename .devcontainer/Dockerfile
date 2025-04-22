@@ -1,51 +1,47 @@
-# Use a base image. Choose one that suits your needs.
-FROM ubuntu:latest
+# Use Ubuntu 24.04 base image
+FROM ubuntu:24.04
 
-# Set environment variables (optional)
+# Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
-ENV CONTAINER_USER=vscode 
-# Install necessary packages
+ENV CONTAINER_USER=vscode
+
+# Install essential dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    # Common tools
     curl \
     wget \
-    zip \
-    unzip \
-    git \
+    ca-certificates \
     gnupg \
     software-properties-common \
-    # Python and pip (if needed)
+    zip \
+    unzip \
+    lsb-release \
     python3 \
     python3-pip \
-    # Other tools you might need
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install Terraform
-RUN apt-get update && apt-get install -y --no-install-recommends
-RUN wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-RUN echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
-RUN apt-get update && apt-get install -y terraform
+# Upgrade pip safely
+RUN pip3 install --break-system-packages --upgrade pip
 
-# Install AWS CLI
-RUN apt-get update && apt-get install -y --no-install-recommends awscli
+# Install AWS CLI using pip
+RUN pip3 install --break-system-packages awscli
 
-# Install other custom tools or dependencies here
-# Example: Install Node.js
-# RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-# RUN apt-get install -y nodejs
+# Install Terraform using HashiCorp APT repo
+RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+    tee /etc/apt/sources.list.d/hashicorp.list && \
+    apt-get update && apt-get install -y terraform && \
+    terraform -install-autocomplete
 
-# Create a non-root user (default for Codespaces)
-RUN groupadd --gid 1000 $CONTAINER_USER
-RUN useradd --uid 1000 --gid 1000 -ms /bin/bash $CONTAINER_USER
+# Create the non-root user
+RUN groupadd --gid 1000 $CONTAINER_USER && \
+    useradd --uid 1000 --gid 1000 -ms /bin/bash $CONTAINER_USER
 
-# Set the user for subsequent commands
+# Use non-root user going forward
 USER $CONTAINER_USER
 
-# Set the working directory (optional)
+# Set working directory
 WORKDIR /home/$CONTAINER_USER/app
 
-# You can copy files into the image if needed
-# COPY . /home/$CONTAINER_USER/app
-
-# Define any entrypoint or command if required
-# ENTRYPOINT ["/bin/bash"]
-# CMD ["echo", "Custom Codespace Container"]
+# Default CMD (keep container alive)
+CMD ["sleep", "infinity"]
