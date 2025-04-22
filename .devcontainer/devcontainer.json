@@ -5,10 +5,9 @@
   },
   "containerEnv": {
     "AWS_ACCESS_KEY_ID": "${{ secrets.AWS_ACCESS_KEY_ID }}",
-    "AWS_SECRET_ACCESS_KEY": "${{ secrets.AWS_SECRET_ACCESS_KEY }}",
-    "TF_VAR_token": "${{ secrets.TF_VAR_MY_TOKEN }}"
+    "AWS_SECRET_ACCESS_KEY": "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
   },
-  "postStartCommand": "bash .devcontainer/welcome.sh",
+  "postStartCommand": "bash -c 'clear && echo \"👋 Welcome @Aadi-Sonwane to your Personal Terraform Codespace 🌍\" && echo \"===============================================================\" && echo \"🛠️  Tools installed: AWS CLI, Terraform, GitHub CLI\" && echo \"🔐 Secrets securely loaded from GitHub (only visible to you)\" && echo \"📁 Workspace: $REPO_NAME\" && echo \"🚀 Happy Automating!\"'",
   "customizations": {
     "vscode": {
       "settings": {
