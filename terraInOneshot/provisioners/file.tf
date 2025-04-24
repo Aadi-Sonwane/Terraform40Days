@@ -1,22 +1,25 @@
-resource "aws_instance" "MyProbeInstance" {
-  ami                    = var.ami
-  instance_type          = var.instance_type
-  vpc_security_group_ids = [aws_security_group.MySGPub.id]
-  subnet_id = aws_subnet.MySubnet.id
-  key_name               = "aws_key"
+# resource "aws_instance" "MyProbeInstance" {
+#   ami                    = var.ami
+#   instance_type          = var.instance_type
+#   vpc_security_group_ids = [aws_security_group.MySGPub.id]
+#   subnet_id = aws_subnet.MySubnet.id
+#   key_name               = "aws_key"
 
-  provisioner "file" {
-    source      = "./demo.txt"
-    destination = "/home/ubuntu/demo.txt"
-  }
-  connection {
-    type        = "ssh"
-    host        = self.public_ip
-    user        = "ubuntu"
-    timeout     = "4m"
-    private_key = file("./aws_key")
-  }
-}
+#   provisioner "file" {
+#     source      = "./demo.txt"
+#     destination = "/home/ubuntu/demo.txt"
+#   }
+#   connection {
+#     type        = "ssh"
+#     host        = self.public_ip
+#     user        = "ubuntu"
+#     timeout     = "4m"
+#     private_key = file("./aws_key")
+#   }
+#   tags = {
+#     Name = "${local.env}-filePro"
+#   }
+# }
 
 resource "aws_key_pair" "MyInstance" {
   key_name   = "aws_key"
